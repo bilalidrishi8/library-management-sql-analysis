@@ -1,0 +1,421 @@
+-- Library System Management SQL Project
+
+-- CREATE DATABASE library;
+
+-- Create table "Branch"
+DROP TABLE IF EXISTS branch;
+CREATE TABLE branch
+(
+            branch_id VARCHAR(10) PRIMARY KEY,
+            manager_id VARCHAR(10),
+            branch_address VARCHAR(30),
+            contact_no VARCHAR(15)
+);
+
+
+-- Create table "Employee"
+DROP TABLE IF EXISTS employees;
+CREATE TABLE employees
+(
+            emp_id VARCHAR(10) PRIMARY KEY,
+            emp_name VARCHAR(30),
+            position VARCHAR(30),
+            salary DECIMAL(10,2),
+            branch_id VARCHAR(10),
+            FOREIGN KEY (branch_id) REFERENCES  branch(branch_id)
+);
+
+
+-- Create table "Members"
+DROP TABLE IF EXISTS members;
+CREATE TABLE members
+(
+            member_id VARCHAR(10) PRIMARY KEY,
+            member_name VARCHAR(30),
+            member_address VARCHAR(30),
+            reg_date DATE
+);
+
+
+
+-- Create table "Books"
+DROP TABLE IF EXISTS books;
+CREATE TABLE books
+(
+            isbn VARCHAR(50) PRIMARY KEY,
+            book_title VARCHAR(80),
+            category VARCHAR(30),
+            rental_price DECIMAL(10,2),
+            status VARCHAR(10),
+            author VARCHAR(30),
+            publisher VARCHAR(30)
+);
+
+
+
+-- Create table "IssueStatus"
+DROP TABLE IF EXISTS issued_status;
+CREATE TABLE issued_status
+(
+            issued_id VARCHAR(10) PRIMARY KEY,
+            issued_member_id VARCHAR(30),
+            issued_book_name VARCHAR(80),
+            issued_date DATE,
+            issued_book_isbn VARCHAR(50),
+            issued_emp_id VARCHAR(10),
+            FOREIGN KEY (issued_member_id) REFERENCES members(member_id),
+            FOREIGN KEY (issued_emp_id) REFERENCES employees(emp_id),
+            FOREIGN KEY (issued_book_isbn) REFERENCES books(isbn) 
+);
+
+
+
+-- Create table "ReturnStatus"
+DROP TABLE IF EXISTS return_status;
+CREATE TABLE return_status
+(
+            return_id VARCHAR(10) PRIMARY KEY,
+            issued_id VARCHAR(30),
+            return_book_name VARCHAR(80),
+            return_date DATE,
+            return_book_isbn VARCHAR(50),
+            FOREIGN KEY (return_book_isbn) REFERENCES books(isbn)
+);
+
+
+-- Project TASK
+
+SELECT *
+FROM books
+WHERE isbn = 'YOUR_ISBN_HERE';
+
+
+SELECT * FROM branch;
+SELECT * FROM employees;
+SELECT * FROM books;
+SELECT * FROM members;
+SELECT * FROM issued_status;
+SELECT * FROM return_status;
+
+
+INSERT INTO issued_status(issued_id, issued_member_id, issued_book_name, issued_date, issued_book_isbn, issued_emp_id) 
+VALUES
+('IS106', 'C106', 'Animal Farm', '2024-03-10', '978-0-330-25864-8', 'E104'),
+('IS107', 'C107', 'One Hundred Years of Solitude', '2024-03-11', '978-0-14-118776-1', 'E104'),
+('IS108', 'C108', 'The Great Gatsby', '2024-03-12', '978-0-525-47535-5', 'E104'),
+('IS109', 'C109', 'Jane Eyre', '2024-03-13', '978-0-141-44171-6', 'E105'),
+('IS110', 'C110', 'The Alchemist', '2024-03-14', '978-0-307-37840-1', 'E105'),
+('IS111', 'C109', 'Harry Potter and the Sorcerers Stone', '2024-03-15', '978-0-679-76489-8', 'E105'),
+('IS112', 'C109', 'A Game of Thrones', '2024-03-16', '978-0-09-957807-9', 'E106'),
+('IS113', 'C109', 'A Peoples History of the United States', '2024-03-17', '978-0-393-05081-8', 'E106'),
+('IS114', 'C109', 'The Guns of August', '2024-03-18', '978-0-19-280551-1', 'E106'),
+('IS115', 'C109', 'The Histories', '2024-03-19', '978-0-14-044930-3', 'E107'),
+('IS116', 'C110', 'Guns, Germs, and Steel: The Fates of Human Societies', '2024-03-20', '978-0-393-91257-8', 'E107'),
+('IS117', 'C110', '1984', '2024-03-21', '978-0-679-64115-3', 'E107'),
+('IS118', 'C101', 'Pride and Prejudice', '2024-03-22', '978-0-14-143951-8', 'E108'),
+('IS119', 'C110', 'Brave New World', '2024-03-23', '978-0-452-28240-7', 'E108'),
+('IS120', 'C110', 'The Road', '2024-03-24', '978-0-670-81302-4', 'E108'),
+('IS121', 'C102', 'The Shining', '2024-03-25', '978-0-385-33312-0', 'E109'),
+('IS122', 'C102', 'Fahrenheit 451', '2024-03-26', '978-0-451-52993-5', 'E109'),
+('IS123', 'C103', 'Dune', '2024-03-27', '978-0-345-39180-3', 'E109'),
+('IS124', 'C104', 'Where the Wild Things Are', '2024-03-28', '978-0-06-025492-6', 'E110'),
+('IS125', 'C105', 'The Kite Runner', '2024-03-29', '978-0-06-112241-5', 'E110'),
+('IS126', 'C105', 'Charlotte''s Web', '2024-03-30', '978-0-06-440055-8', 'E110'),
+('IS127', 'C105', 'Beloved', '2024-03-31', '978-0-679-77644-3', 'E110'),
+('IS128', 'C105', 'A Tale of Two Cities', '2024-04-01', '978-0-14-027526-3', 'E110'),
+('IS129', 'C105', 'The Stand', '2024-04-02', '978-0-7434-7679-3', 'E110'),
+('IS130', 'C106', 'Moby Dick', '2024-04-03', '978-0-451-52994-2', 'E101'),
+('IS131', 'C106', 'To Kill a Mockingbird', '2024-04-04', '978-0-06-112008-4', 'E101'),
+('IS132', 'C106', 'The Hobbit', '2024-04-05', '978-0-7432-7356-4', 'E106'),
+('IS133', 'C107', 'Angels & Demons', '2024-04-06', '978-0-7432-4722-5', 'E106'),
+('IS134', 'C107', 'The Diary of a Young Girl', '2024-04-07', '978-0-375-41398-8', 'E106'),
+('IS135', 'C107', 'Sapiens: A Brief History of Humankind', '2024-04-08', '978-0-307-58837-1', 'E108'),
+('IS136', 'C107', '1491: New Revelations of the Americas Before Columbus', '2024-04-09', '978-0-7432-7357-1', 'E102'),
+('IS137', 'C107', 'The Catcher in the Rye', '2024-04-10', '978-0-553-29698-2', 'E103'),
+('IS138', 'C108', 'The Great Gatsby', '2024-04-11', '978-0-525-47535-5', 'E104'),
+('IS139', 'C109', 'Harry Potter and the Sorcerers Stone', '2024-04-12', '978-0-679-76489-8', 'E105'),
+('IS140', 'C110', 'Animal Farm', '2024-04-13', '978-0-330-25864-8', 'E102');
+
+
+
+
+-- 11. Find the total number of books in each category.
+-- Business Objective: Analyze the distribution of books across categories.
+SELECT * FROM books;
+
+SELECT
+    category,
+    COUNT(*) AS total_books
+FROM books
+GROUP BY category
+ORDER BY total_books DESC;
+
+-- 12. Find the top 5 members who borrowed the most books.
+-- Business Objective: Identify the most active library members.
+SELECT * FROM members;
+
+SELECT
+    m.member_name,
+    COUNT(i.issued_id) AS books_borrowed
+FROM members m
+JOIN issued_status i
+ON m.member_id = i.issued_member_id
+GROUP BY m.member_name
+ORDER BY books_borrowed DESC
+LIMIT 5;
+
+SELECT member_name,
+COUNT(i.issued_id) AS books_borrowed
+
+
+-- 13. Find the top 5 employees who issued the most books.
+
+Business Objective: Measure employee workload.
+
+SELECT
+    e.emp_name,
+    COUNT(i.issued_id) AS total_issues
+FROM employees e
+JOIN issued_status i
+ON e.emp_id = i.issued_emp_id
+GROUP BY e.emp_name
+ORDER BY total_issues DESC
+LIMIT 5;
+-- 14. Find books that have never been issued.
+-- Business Objective: Identify underutilized books.
+
+SELECT
+    b.book_title,
+    b.author
+FROM books b
+LEFT JOIN issued_status i
+ON b.isbn = i.issued_book_isbn
+WHERE i.issued_id IS NULL;
+
+-- 15. Find members who have never borrowed a book.
+-- Business Objective: Identify inactive members.
+
+SELECT
+    m.member_name
+FROM members m
+LEFT JOIN issued_status i
+ON m.member_id = i.issued_member_id
+WHERE i.issued_id IS NULL;
+-- 16. Calculate total rental revenue by category.
+-- Business Objective: Measure revenue generated by each book category.
+
+SELECT
+    b.category,
+    SUM(b.rental_price) AS total_revenue
+FROM books b
+JOIN issued_status i
+ON b.isbn = i.issued_book_isbn
+GROUP BY b.category
+ORDER BY total_revenue DESC;
+-- 17. Find the branch with the highest number of issued books.
+-- Business Objective: Identify the busiest library branch.
+
+SELECT
+    br.branch_id,
+    COUNT(i.issued_id) AS total_books_issued
+FROM branch br
+JOIN employees e
+ON br.branch_id = e.branch_id
+JOIN issued_status i
+ON e.emp_id = i.issued_emp_id
+GROUP BY br.branch_id
+ORDER BY total_books_issued DESC
+LIMIT 1;
+-- 18. Find the average rental price by publisher.
+-- Business Objective: Compare publishers based on rental pricing.
+
+SELECT
+    publisher,
+    ROUND(AVG(rental_price),2) AS avg_rental_price
+FROM books
+GROUP BY publisher
+ORDER BY avg_rental_price DESC;
+-- 19. Find books issued more than once.
+-- Business Objective: Identify popular books.
+
+SELECT
+    b.book_title,
+    COUNT(i.issued_id) AS issue_count
+FROM books b
+JOIN issued_status i
+ON b.isbn = i.issued_book_isbn
+GROUP BY b.book_title
+HAVING COUNT(i.issued_id) > 1
+ORDER BY issue_count DESC;
+
+-- 20. Find the most popular author.
+-- Business Objective: Determine which author's books are borrowed most frequently.
+
+SELECT
+    b.author,
+    COUNT(i.issued_id) AS total_issues
+FROM books b
+JOIN issued_status i
+ON b.isbn = i.issued_book_isbn
+GROUP BY b.author
+ORDER BY total_issues DESC
+LIMIT 1;
+
+-- 21. Rank members based on the number of books borrowed.
+SELECT
+    m.member_name,
+    COUNT(i.issued_id) AS books_borrowed,
+    RANK() OVER (ORDER BY COUNT(i.issued_id) DESC) AS member_rank
+FROM members m
+JOIN issued_status i
+ON m.member_id = i.issued_member_id
+GROUP BY m.member_name;
+-- 22. Find the most borrowed book in each category.
+
+SELECT *
+FROM (
+    SELECT
+        b.category,
+        b.book_title,
+        COUNT(i.issued_id) AS total_issues,
+        ROW_NUMBER() OVER (
+            PARTITION BY b.category
+            ORDER BY COUNT(i.issued_id) DESC
+        ) AS rn
+    FROM books b
+    JOIN issued_status i
+    ON b.isbn = i.issued_book_isbn
+    GROUP BY b.category, b.book_title
+) t
+WHERE rn = 1;
+-- 23. Calculate the running total of books issued by date.
+SELECT
+    issued_date,
+    COUNT(*) AS books_issued,
+    SUM(COUNT(*)) OVER (
+        ORDER BY issued_date
+    ) AS running_total
+FROM issued_status
+GROUP BY issued_date;
+-- 24. Find each branch's percentage contribution to total book issues.
+SELECT
+    br.branch_id,
+    COUNT(i.issued_id) AS total_issues,
+    ROUND(
+        COUNT(i.issued_id) * 100.0 /
+        SUM(COUNT(i.issued_id)) OVER (),
+        2
+    ) AS contribution_percentage
+FROM branch br
+JOIN employees e
+ON br.branch_id = e.branch_id
+JOIN issued_status i
+ON e.emp_id = i.issued_emp_id
+GROUP BY br.branch_id;
+-- 25. Divide members into four groups based on the number of books borrowed.
+SELECT
+    member_name,
+    books_borrowed,
+    NTILE(4) OVER (ORDER BY books_borrowed DESC) AS quartile
+FROM (
+    SELECT
+        m.member_name,
+        COUNT(i.issued_id) AS books_borrowed
+    FROM members m
+    JOIN issued_status i
+    ON m.member_id = i.issued_member_id
+    GROUP BY m.member_name
+) t;
+-- 26. Find employees whose issued book count is above the average.
+SELECT *
+FROM (
+    SELECT
+        e.emp_name,
+        COUNT(i.issued_id) AS total_issues
+    FROM employees e
+    JOIN issued_status i
+    ON e.emp_id = i.issued_emp_id
+    GROUP BY e.emp_name
+) t
+WHERE total_issues > (
+    SELECT AVG(issue_count)
+    FROM (
+        SELECT COUNT(*) AS issue_count
+        FROM issued_status
+        GROUP BY issued_emp_id
+    ) x
+);
+-- 27. Find the second busiest branch using DENSE_RANK().
+SELECT *
+FROM (
+    SELECT
+        br.branch_id,
+        COUNT(i.issued_id) AS total_issues,
+        DENSE_RANK() OVER (
+            ORDER BY COUNT(i.issued_id) DESC
+        ) AS ranking
+    FROM branch br
+    JOIN employees e
+    ON br.branch_id = e.branch_id
+    JOIN issued_status i
+    ON e.emp_id = i.issued_emp_id
+    GROUP BY br.branch_id
+) t
+WHERE ranking = 2;
+-- 28. Find books whose rental price is above the average rental price.
+SELECT
+    book_title,
+    rental_price
+FROM books
+WHERE rental_price >
+(
+    SELECT AVG(rental_price)
+    FROM books
+);
+-- 29. Calculate the difference between the highest and lowest rental prices in each category using a CTE.
+
+WITH category_price AS (
+    SELECT
+        category,
+        MAX(rental_price) AS highest_price,
+        MIN(rental_price) AS lowest_price
+    FROM books
+    GROUP BY category
+)
+SELECT
+    category,
+    highest_price,
+    lowest_price,
+    highest_price - lowest_price AS price_difference
+FROM category_price
+ORDER BY price_difference DESC;
+
+-- 30. Create a management summary report by branch.
+SELECT
+    br.branch_id,
+    COUNT(DISTINCT e.emp_id) AS total_employees,
+    COUNT(i.issued_id) AS total_books_issued,
+    ROUND(SUM(b.rental_price),2) AS total_revenue
+FROM branch br
+LEFT JOIN employees e
+    ON br.branch_id = e.branch_id
+LEFT JOIN issued_status i
+    ON e.emp_id = i.issued_emp_id
+LEFT JOIN books b
+    ON i.issued_book_isbn = b.isbn
+GROUP BY br.branch_id
+ORDER BY total_revenue DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
